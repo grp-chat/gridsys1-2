@@ -156,7 +156,7 @@ class GridSystem {
         this.matrix4 = matrix4;
         this.cellSize = 40;
         this.padding = 2;
-        this.startingSteps = 100;
+        this.startingSteps = 0;
         this.maxSteps = 150;
         //this.tempSteps = 0;
         this.winY = 11;
@@ -227,7 +227,8 @@ class GridSystem {
             "area4": this.cdm.area4
         }     
 
-        this.extraArr = ["TCR", "LXR", "LK", "JHA", "JV", "JL", "SZF", "H", "TJY", "KX"];
+        //this.extraArr = ["TCR", "LXR", "LK", "JHA", "JV", "JL", "SZF", "H", "TJY", "KX"];
+        this.extraArr = ["TCR", "JX", "JZ", "TWN", "LJY", "LSH", "ELI", "CUR", "RYD", "CT"];
 
         this.p1 = { x: 25, y: 11, lable: 2, id: this.extraArr[0], steps: this.startingSteps, area: "mainArea", wallet: 0, total: 0, storeSteps: 1000 };
 
@@ -773,6 +774,22 @@ io.sockets.on('connection', function (sock) {
 
                 gridSystem.emitToUsers();
             }
+        });
+    });
+    sock.on('addStepsAll', (data) => {
+        
+        gridSystem.playersArr.forEach((player) => {
+            var convertToNum = Number(data);
+                if (player.steps + convertToNum > gridSystem.maxSteps) {
+                    var message = player.id + " steps capacity exceeded! Failed."
+                    io.emit('chat-to-clients', message);
+                } else {
+                    var message2 = player.id + " added " + convertToNum + " steps succesful!"
+                    player.steps += convertToNum;
+                    io.emit('chat-to-clients', message2);
+                }
+
+                gridSystem.emitToUsers();
         });
     });
     sock.on('sendPW', (data) => {

@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const { join } = require('path');
+const { json } = require('express');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -37,30 +38,30 @@ const gridMatrix = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
-    [1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,1],
+    [1,20,0,0,20,20,1,20,0,0,20,20,1,20,0,0,20,20,1,20,0,0,20,20,1,20,0,0,20,20,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
+    [1,0,20,0,0,20,1,0,20,0,0,20,1,0,20,0,0,20,1,0,20,0,0,20,1,0,20,0,0,20,1,0,0,1],
+    [1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,0,0,1],
     [1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,1],
+    [1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
-    [1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,1],
-    [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
-    [1,20,20,20,20,20,1,20,20,20,20,20,1,20,20,20,20,20,1,20,20,20,20,20,1,20,20,20,20,20,1,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,20,0,20,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
-    [1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,1],
+    [1,20,0,0,20,20,1,20,0,0,20,20,1,20,0,0,20,20,1,20,0,0,20,20,1,20,0,0,20,20,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
+    [1,0,20,0,0,20,1,0,20,0,0,20,1,0,20,0,0,20,1,0,20,0,0,20,1,0,20,0,0,20,1,0,0,1],
+    [1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,0,0,1],
     [1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,1],
+    [1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,20,0,0,0,0,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
-    [1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,0,0,20,1,0,0,1],
-    [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
-    [1,20,20,20,20,20,1,20,20,20,20,20,1,20,20,20,20,20,1,20,20,20,20,20,1,20,20,20,20,20,1,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]                                
 ];
-const gridMatrixBackup = gridMatrix;
 
 const gridMatrix2 = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -84,6 +85,7 @@ const gridMatrix2 = [
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                        
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]                                 
@@ -111,7 +113,7 @@ const gridMatrix3 = [
     [1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,1],
     [1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,0,20,20,1,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        
+            
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                             
@@ -139,21 +141,21 @@ const gridMatrix4 = [
     [1,0,0,20,0,0,1,0,0,20,0,0,1,0,0,20,0,0,1,0,0,20,0,0,1,0,0,20,0,0,1,0,0,1],
     [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        
+                    
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                                 
 ];
-
 
 //##############################################################################################################
 
 class GridSystem {
     constructor(matrix, matrix2, matrix3, matrix4) {
-        this.matrix = matrix;
-        this.matrixMain = matrix;
-        this.matrix2 = matrix2;
-        this.matrix3 = matrix3;
-        this.matrix4 = matrix4;
+        this.matrix = [];
+        this.matrixMain = JSON.parse(JSON.stringify(matrix));
+        this.matrix2 = JSON.parse(JSON.stringify(matrix2));
+        this.matrix3 = JSON.parse(JSON.stringify(matrix3));
+        this.matrix4 = JSON.parse(JSON.stringify(matrix4));
+        this.backupMatrix1 = JSON.parse(JSON.stringify(matrix));
         this.cellSize = 40;
         this.padding = 2;
         this.startingSteps = 0;
@@ -210,14 +212,11 @@ class GridSystem {
             test() {console.log("test")}
         }
         this.cdm = {
-            //area1: [{x:2,y:10},{x:17,y:10},{x:20,y:2},{x:20,y:18},{x:23,y:3},{x:23,y:17},{x:30,y:4},{x:30,y:16},{x:34,y:10}],
             area1: [{}],
-            //area2: [{x:1,y:8},{x:10,y:10},{x:13,y:1},{x:21,y:13}],
-            area2: [{}],
-            // area3: [{x:16,y:2}],
-            area3: [{}],
-            // area4: [{x:7,y:8}],
-             area4: [{}]
+            area2: [{}], 
+            area3: [{}], 
+            area4: [{}]
+            
         }
         this.cdmByArea = {
             "mainArea": this.cdm.area1,
@@ -230,7 +229,7 @@ class GridSystem {
         //this.extraArr = ["TCR", "LXR", "LK", "JHA", "JV", "JL", "SZF", "H", "TJY", "KX"];
         this.extraArr = ["TCR", "JX", "JZ", "TWN", "LJY", "LSH", "ELI", "CUR", "RYD", "CT"];
 
-        this.p1 = { x: 25, y: 11, lable: 2, id: this.extraArr[0], steps: this.startingSteps, area: "mainArea", wallet: 0, total: 0, storeSteps: 1000 };
+        this.p1 = { x: 25, y: 11, lable: 2, id: this.extraArr[0], steps: 0, area: "mainArea", wallet: 0, total: 0, storeSteps: 1000 };
 
         this.p2 = { x: 1, y: 1, lable: 3, id: this.extraArr[1], steps: this.startingSteps, area: "mainArea", wallet: 0, total: 2500, storeSteps: 0 };
         this.p3 = { x: 7, y: 1, lable: 4, id: this.extraArr[2], steps: this.startingSteps, area: "mainArea", wallet: 0, total: 2300, storeSteps: 0 };
@@ -248,7 +247,7 @@ class GridSystem {
         this.playersArr.forEach((player) => {
             player.defaultX = player.x;
             player.defaultY = player.y
-            this.#startingPoint(player);
+            this.startingPoint(player);
         });
 
         //PLS COPY PASTE THIS OBJECT TO INDEX.JS "LABLE LOCK FUNCTION AND FLIP ROW WITH COL"
@@ -371,8 +370,6 @@ class GridSystem {
             50: {x:31, y:16, area:this.matrixMain, password:"50"}
 
         }
-
-        this.moveSwitch = 0;
         
     }
 
@@ -387,13 +384,32 @@ class GridSystem {
         return entrance;
     }
 
-    #startingPoint(plyrSlot) {
+    startingPoint(plyrSlot) {
+        
         this.matrix = this.allAreas[plyrSlot.area];
-
+        
         this.matrix[plyrSlot.y][plyrSlot.x] = plyrSlot.lable;
     }
+    
+    duplicateMatrix(backMatrix) {
+        
+        if (activatedMatrixCounter === 1) {
+            this.matrixMain = JSON.parse(JSON.stringify(backMatrix));
+            this.allAreas["mainArea"] = this.matrixMain;
+        }else if (activatedMatrixCounter === 2) {
+            this.matrix2 = JSON.parse(JSON.stringify(backMatrix));
+            this.allAreas["area2"] = this.matrix2;
+        }else if (activatedMatrixCounter === 3) {
+            this.matrix3 = JSON.parse(JSON.stringify(backMatrix));
+            this.allAreas["area3"] = this.matrix3;
+        }else if (activatedMatrixCounter === 4) {
+            this.matrix4 = JSON.parse(JSON.stringify(backMatrix));
+            this.allAreas["area4"] = this.matrix4;
+        }
+        
+    }
 
-    #isValidMove(plyrSlot, x, y) {
+    isValidMove(plyrSlot, x, y) {
 
         this.matrix = this.allAreas[plyrSlot.area];
 
@@ -430,7 +446,7 @@ class GridSystem {
     }
 
     
-    #updPosition(keyCode, plyrSlot) {
+    updPosition(keyCode, plyrSlot) {
         this.matrix = this.allAreas[plyrSlot.area];
 
         if (keyCode === 37) {
@@ -456,26 +472,26 @@ class GridSystem {
     movePlayer(keyCode, plyrSlot) {
 
         if (keyCode === 37) {
-            if (this.#isValidMove(plyrSlot, -1, 0)) {
-                this.#updPosition(37, plyrSlot);
+            if (this.isValidMove(plyrSlot, -1, 0)) {
+                this.updPosition(37, plyrSlot);
                 plyrSlot.steps--;
             }
 
         } else if (keyCode === 39) {
-            if (this.#isValidMove(plyrSlot, 1, 0)) {
-                this.#updPosition(39, plyrSlot);
+            if (this.isValidMove(plyrSlot, 1, 0)) {
+                this.updPosition(39, plyrSlot);
                 plyrSlot.steps--;
             }
 
         } else if (keyCode === 38) {
-            if (this.#isValidMove(plyrSlot, 0, -1)) {
-                this.#updPosition(38, plyrSlot);
+            if (this.isValidMove(plyrSlot, 0, -1)) {
+                this.updPosition(38, plyrSlot);
                 plyrSlot.steps--;
             }
 
         } else if (keyCode === 40) {
-            if (this.#isValidMove(plyrSlot, 0, 1)) {
-                this.#updPosition(40, plyrSlot);
+            if (this.isValidMove(plyrSlot, 0, 1)) {
+                this.updPosition(40, plyrSlot);
                 plyrSlot.steps--;
             }
 
@@ -567,10 +583,10 @@ class GridSystem {
         if (activatedMatrixCounter === 5) {activatedMatrixCounter = 1;}
         const levelSequence = {1:"mainArea", 2:"area2", 3:"area3", 4:"area4"};
         this.playersArr.forEach((player) => {
-            
             this.transitionToAnotherArea5(levelSequence[activatedMatrixCounter], player);
             player.area = levelSequence[activatedMatrixCounter];
             player.wallet = 0;
+            player.total = 0;
             player.steps = 0;
         });
 
@@ -587,20 +603,20 @@ class GridSystem {
     }
     resetMap(activatedMatrixCounter) {
         
-        console.log("run?")
         const originalMap = {1:gridMatrix, 2:gridMatrix2, 3:gridMatrix3, 4:gridMatrix4};
         
-        //this.matrix = originalMap[activatedMatrixCounter];
-         this.matrixMain = gridMatrixBackup;
+        const getMap = originalMap[activatedMatrixCounter];
+        
+         const matrix = JSON.parse(JSON.stringify(getMap));
+         this.duplicateMatrix(matrix);
          this.playersArr.forEach((player) => {
-            this.#startingPoint(player);
+            player.x = player.defaultX;
+            player.y = player.defaultY;
+            this.startingPoint(player);
+            player.wallet = 0;
+            player.total = 0;
+            player.steps = 0;
         });
-        //this.matrixMain = this.matrix;
-        // this.playersArr.forEach((player) => {
-            
-        //     this.transitionToAnotherArea5(levelSequence[activatedMatrixCounter], player);
-        //     player.area = levelSequence[activatedMatrixCounter];
-        // });
 
     }
 
@@ -677,7 +693,7 @@ class GridSystem {
 //##############################################################################################################
 
 var activatedMatrixCounter = 1
-var gridSystem = new GridSystem(gridMatrix, gridMatrix2, gridMatrix3, gridMatrix4);
+const gridSystem = new GridSystem(gridMatrix, gridMatrix2, gridMatrix3, gridMatrix4);
 
 var mindControlMode = false;
 var mindControlledStudent = "";
@@ -887,8 +903,8 @@ io.sockets.on('connection', function (sock) {
     });
     sock.on('restartLevel', () => {
 
-        gridSystem = new GridSystem(gridMatrixBackup, gridMatrix2, gridMatrix3, gridMatrix4);
-        gridSystem.jumpToMap(activatedMatrixCounter);
+        gridSystem.resetMap(activatedMatrixCounter);
+
         gridSystem.emitToUsers();
         
     });

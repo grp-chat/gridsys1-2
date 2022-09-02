@@ -425,12 +425,10 @@ class GridSystemClient {
         this.students = ["TCR", "JX", "JZ", "TWN", "LJY", "LSH", "ELI", "CUR", "RYD", "CT"];
         
         this.cdm = {
-            //area1: [{x:2,y:10},{x:17,y:10},{x:20,y:2},{x:20,y:18},{x:23,y:3},{x:23,y:17},{x:30,y:4},{x:30,y:16},{x:34,y:10}],
-            //area1: [{x:3,y:11}],
-            //area2: [{x:1,y:8},{x:10,y:10},{x:13,y:1},{x:21,y:13}],
-            // area2: [{x:1,y:8},{x:10,y:10},{x:14,y:1},{x:21,y:13}],
-            // area3: [{x:16,y:2}],
-            // area4: [{x:7,y:8}]
+            area1: [{}],
+            area2: [{}], 
+            area3: [{}], 
+            area4: [{}]
         }
 
         this.p1 = { color: "grey", lable: 2, id: this.students[0] };
@@ -653,16 +651,16 @@ class GridSystemClient {
         // }
 
         //CDM here:
-        // cdmCoordinates[matrixLength].area.forEach((coordinate) => {
-        //     this.outlineContext.fillStyle = "goldenrod";
-        //     this.outlineContext.fillRect(coordinate.x * (this.cellSize + this.padding),
-        //         coordinate.y * (this.cellSize + this.padding),
-        //         this.cellSize, this.cellSize);
-        //     this.outlineContext.fillStyle = "black";
-        //     this.outlineContext.font = "10px Times New Roman";
-        //     this.outlineContext.fillText("CDM", coordinate.x * (this.cellSize + this.padding) + 2,
-        //         coordinate.y * (this.cellSize + this.padding) + 21);
-        // });
+        cdmCoordinates[matrixLength].area.forEach((coordinate) => {
+            this.outlineContext.fillStyle = "goldenrod";
+            this.outlineContext.fillRect(coordinate.x * (this.cellSize + this.padding),
+                coordinate.y * (this.cellSize + this.padding),
+                this.cellSize, this.cellSize);
+            this.outlineContext.fillStyle = "black";
+            this.outlineContext.font = "10px Times New Roman";
+            this.outlineContext.fillText("CDM", coordinate.x * (this.cellSize + this.padding) + 2,
+                coordinate.y * (this.cellSize + this.padding) + 21);
+        });
 
         //finish flags (checkered flags)
         // if (matrixLength != 21) {return}
